@@ -33,6 +33,13 @@ test_table: list[pytest_helper.TestTableItem] = [
         parameters=types._ListModelsParameters(config={'query_base': False}),
     ),
     pytest_helper.TestTableItem(
+        name='test_tuned_models_with_filter',
+        parameters=types._ListModelsParameters(
+            config={'query_base': False,
+                    'filter': 'displayName="gemini-1.5-pro-002-0b3f245d-0dc4-4cdb-b528-bb23ea6dadd2"'}
+        ),
+    ),
+    pytest_helper.TestTableItem(
         name='test_base_models',
         parameters=types._ListModelsParameters(),
     ),
