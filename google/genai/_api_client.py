@@ -730,8 +730,39 @@ class BaseApiClient:
     """Returns the aiohttp client session."""
     if self._aiohttp_session is None or self._aiohttp_session.closed:
       # Initialize the aiohttp client session if it's not set up or closed.
-      self._aiohttp_session = aiohttp.ClientSession(
-          connector=aiohttp.TCPConnector(limit=0),
+
+      class AiohttpClientSession(aiohttp.ClientSession):
+
+        def __del__(self, _warn=warnings) -> None:
+          if not self.closed:
+            context = {
+                'client_session': self,
+                'message': 'Unclosed client session',
+            }
+            if self._source_traceback is not None:
+              context['source_traceback'] = self._source_traceback
+            # Remove this self._loop.call_exception_handler(context)
+
+      class AiohttpTCPConnector(aiohttp.TCPConnector):
+
+        def __del__(self, _warn=warnings) -> None:
+          if self._closed:
+            return
+          if not self._conns:
+            return
+          conns = [repr(c) for c in self._conns.values()]
+          self._close()
+          context = {
+              'connector': self,
+              'connections': conns,
+              'message': 'Unclosed connector',
+          }
+          if self._source_traceback is not None:
+            context['source_traceback'] = self._source_traceback
+          # Remove this self._loop.call_exception_handler(context)
+
+      self._aiohttp_session = AiohttpClientSession(
+          connector=AiohttpTCPConnector(limit=0),
           trust_env=True,
           read_bufsize=READ_BUFFER_SIZE,
       )
