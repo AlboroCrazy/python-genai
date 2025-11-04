@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.48.1](https://github.com/googleapis/python-genai/compare/v1.48.0...v1.48.1) (2025-11-04)
+
+
+### Bug Fixes
+
+* Raise errors during file upload. ([946a17e](https://github.com/googleapis/python-genai/commit/946a17e0a9ab9ba0f331790eb3114a145315ccbf))
+
+
+### Documentation
+
+* Log deprecation waring to Schema.from_json_schema method and Schema.json_schema method ([856789a](https://github.com/googleapis/python-genai/commit/856789a7a79f4e00565c44e27b010f5fe8d8e9d0))
+* Regenerate docs for 1.48.0 ([004d238](https://github.com/googleapis/python-genai/commit/004d238b4f3cb628f68817c588212c0aae133e7c))
+
 ## [1.48.0](https://github.com/googleapis/python-genai/compare/v1.47.0...v1.48.0) (2025-11-03)
 
 
